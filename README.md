@@ -1,2 +1,4 @@
-# boloes-loterias
-Projeto para gerar bolões de loteria
+# Bolões : Loterias
+
+## Descrição
+Projeto para gerar jogos de loteria.
