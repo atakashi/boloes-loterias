@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Arrays;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.pangares.resultados.configuration.ResultadosConfig;
 import com.pangares.resultados.dto.MegaSenaResultadoDto;
+import com.pangares.resultados.helper.MegaSenaMocksHelpers;
 
 @RestClientTest(MegaSenaResultadoEndpoint.class)
 @ActiveProfiles(value = "test")
@@ -47,20 +46,20 @@ public class MegaSenaResultadoEndpointTest {
 	@Autowired
 	private MockRestServiceServer mockRestServiceServer;
 	
-    private Long numeroConcurso;
-	private MegaSenaResultadoDto dtoMock;
+    private Long numeroConcurso576;
+	private MegaSenaResultadoDto dto576Mock;
 	
 	@Test
 	public void getResultadoTest() {
 
-		this.mockRestServiceServer.expect(MockRestRequestMatchers.requestTo(BASE_URL + String.format(RESULTADO_ENDPOINT, numeroConcurso)))
+		this.mockRestServiceServer.expect(MockRestRequestMatchers.requestTo(BASE_URL + String.format(RESULTADO_ENDPOINT, numeroConcurso576)))
 				.andRespond(MockRestResponseCreators.withSuccess(
 						"{\"dataApuracao\": \"30/06/2004\", \"numero\": 576, \"dezenasSorteadasOrdemSorteio\": [\"18\",\"43\",\"52\",\"39\",\"07\",\"08\"], \"listaDezenas\": [\"07\",\"08\",\"18\",\"39\",\"43\",\"52\"]}", 
 						MediaType.APPLICATION_JSON));
 
-		MegaSenaResultadoDto resultadoDto = this.endpoint.getResultado(numeroConcurso);
+		MegaSenaResultadoDto resultadoDto = this.endpoint.getResultado(numeroConcurso576);
 
-		assertEquals(dtoMock, resultadoDto);
+		assertEquals(dto576Mock, resultadoDto);
 	}
 	
 	@Test
@@ -80,13 +79,8 @@ public class MegaSenaResultadoEndpointTest {
 
 	@BeforeEach
 	public void setup() {
-		this.numeroConcurso = Long.valueOf(576);
-		this.dtoMock = MegaSenaResultadoDto.builder()
-				.numeroConcurso(numeroConcurso)
-				.dataSorteio(LocalDate.of(2004, 06, 30))
-				.numerosSorteadasOrdemSorteio(Arrays.<Integer>asList(18, 43, 52, 39, 7, 8))
-				.numerosSorteados(Arrays.<Integer>asList(7, 8, 18, 39, 43, 52))
-				.build();
+		this.dto576Mock = MegaSenaMocksHelpers.buildDto576();
+		this.numeroConcurso576 = this.dto576Mock.getNumeroConcurso();
 	}
 	
 	@AfterEach
