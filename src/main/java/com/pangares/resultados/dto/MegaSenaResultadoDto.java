@@ -23,12 +23,12 @@ public class MegaSenaResultadoDto {
 	
 	@JsonProperty("dataApuracao")
 	@JsonFormat(shape = Shape.STRING, pattern = BRAZILIAN_DATE_FORMAT)
-	private LocalDate dataApuracao;
+	private LocalDate dataSorteio;
 	
 	@JsonProperty("dezenasSorteadasOrdemSorteio")
-	private List<Integer> dezenasSorteadasOrdemSorteio;
+	private List<Integer> numerosSorteadasOrdemSorteio;
 
 	@JsonProperty("listaDezenas")
-	private List<Integer> listaDezenas;
-	
+	private List<Integer> numerosSorteados;
+
 }
