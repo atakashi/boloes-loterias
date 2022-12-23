@@ -4,8 +4,8 @@
 Projeto para gerar jogos de loteria.
 
 
-## Observações:
-Para converter o HTML com os resultados dos jogos da CEF utilizou-se do site ()[https://www.convertjson.com/html-table-to-json.htm]
+## _Roadmap_
+Neste momento, o projeto esta sendo construido para obter os jogos da mega-sena para a geração de jogos que ainda não foram sorteados.
 
 ## Configuração
 
@@ -48,3 +48,12 @@ Para instalar o certificado SSL devemos executar o seguinte comando:
 ```console
 $ ./keytool -importcert -alias "servicebus2.caixa.gov.br.cer" -keystore {JAVA_HOME}/lib/security/cacerts -file {PathToDownloads}/servicebus2.caixa.gov.br.cer
 ```
+
+#### _Endpoints_ da CEF
+Existem duas formas de se obter os resultados dos jogos da loteria[^1].
+
+Neste momento, optamos pela forma mais simples, de obter apenas um único resultado.
+Esta forma é mais simples, pois os dados já vem em forma de JSON.
+
+
+[^1]: _Link_ com mais detalhes: <https://pt.stackoverflow.com/questions/47597/como-posso-pegar-os-resultados-das-loterias>
