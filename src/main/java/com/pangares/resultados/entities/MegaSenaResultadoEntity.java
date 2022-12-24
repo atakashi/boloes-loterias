@@ -33,4 +33,10 @@ public class MegaSenaResultadoEntity extends AbstractResultadoEntity {
 	@Column
 	private Set<Integer> numerosSorteados;
 
+	/**
+	 * Campo para pesquisa heurística, para acelerar a pesquisa de jogos já sorteados
+	 */
+	@Column
+	private String chaveNumerosSorteados;
+
 }

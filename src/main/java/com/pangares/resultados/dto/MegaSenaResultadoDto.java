@@ -26,9 +26,9 @@ public class MegaSenaResultadoDto {
 	private LocalDate dataSorteio;
 	
 	@JsonProperty("dezenasSorteadasOrdemSorteio")
-	private List<Integer> numerosSorteadasOrdemSorteio;
+	private List<Integer> numerosSorteadosOrdemSorteio;
 
 	@JsonProperty("listaDezenas")
 	private List<Integer> numerosSorteados;
-
+	
 }

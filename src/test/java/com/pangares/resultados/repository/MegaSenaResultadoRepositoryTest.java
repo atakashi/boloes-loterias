@@ -37,7 +37,7 @@ public class MegaSenaResultadoRepositoryTest {
 		this.repository.save(concurso99);
 		
 		Long beforeNumeroConcurso = this.repository.getLastNumeroConcurso(); 
-		assertEquals(concurso576.getNumeroConcurso(), newNumeroConcurso);
+		assertEquals(concurso576.getNumeroConcurso(), beforeNumeroConcurso);
 		
 		
 		// The new concurso saved is the 'last'

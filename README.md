@@ -55,5 +55,13 @@ Existem duas formas de se obter os resultados dos jogos da loteria[^1].
 Neste momento, optamos pela forma mais simples, de obter apenas um único resultado.
 Esta forma é mais simples, pois os dados já vem em forma de JSON.
 
-
 [^1]: _Link_ com mais detalhes: <https://pt.stackoverflow.com/questions/47597/como-posso-pegar-os-resultados-das-loterias>
+
+## Detalhes Técnicos
+
+### Técnicas Heurísicas para acelerar a pesquisa de jogos já sorteados
+Para esta primeira versão, foi-se implementado o uso do algoritmo de _hash_ [MD5](https://pt.wikipedia.org/wiki/MD5).
+
+Mas para uma segunda versão será implementando o algoritmo de [Bloom Filter](https://en.wikipedia.org/wiki/Bloom_filter).
+Este tem um melhor tratamento para colisões e grande quantidade de elementos.
+
