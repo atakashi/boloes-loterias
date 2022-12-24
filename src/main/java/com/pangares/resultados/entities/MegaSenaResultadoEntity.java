@@ -11,12 +11,16 @@ import javax.persistence.FetchType;
 import javax.persistence.Table;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "megasena")
 @Builder
 @Getter
+@ToString
+@EqualsAndHashCode(doNotUseGetters = true, exclude = {"id"}, callSuper = false)
 public class MegaSenaResultadoEntity extends AbstractResultadoEntity {
 
 	@Column(nullable = false, unique = true)
