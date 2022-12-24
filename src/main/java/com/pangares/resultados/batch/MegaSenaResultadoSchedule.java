@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MegaSenaResultadoSchedule {
 
-	@Scheduled(cron = "0 27 0 * * *")
+	@Scheduled(cron = "0 0 1 * * *")
 	public void schedulingForResultados() {
 		SpringApplication.run(BatchConfiguration.class, null);
 	}

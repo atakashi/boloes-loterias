@@ -50,21 +50,32 @@ public class BatchConfiguration {
 		this.repository = repository;
 	}
 
+	private static Object LOCK = new Object();
+	
 	@Bean
 	public ItemReader<MegaSenaResultadoDto> reader() {
 		log.info("reader: starting");
 		
 		List<MegaSenaResultadoDto> dtos = new ArrayList<>();
 		Long nextNumeroConcurso = this.service.getLastNumeroConcurso() + 1;
-		try {
-			for (int i = 0; i < 10; i++) {
-				MegaSenaResultadoDto dto = this.endpoint.getResultado(nextNumeroConcurso);
+		Exception exception = null;
+		do {
+			try {
+				
+				MegaSenaResultadoDto dto = null;
+				synchronized (LOCK) {
+					dto = this.endpoint.getResultado(nextNumeroConcurso);
+					LOCK.wait(1000);	// 1 second = 1000 milliseconds
+				}
+
 				dtos.add(dto);
 				nextNumeroConcurso++;
-			}
-		} catch (Exception e) {
+			} catch (Exception e) {
+				exception = e;
 				log.warn("exception: " + e);
-		}
+			}
+		} while (exception == null);
+		
 		
 		log.info("reader: end successful!");
 		return new ListItemReader<MegaSenaResultadoDto>(dtos);
