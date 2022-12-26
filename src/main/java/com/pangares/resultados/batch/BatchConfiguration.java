@@ -14,11 +14,17 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.data.builder.RepositoryItemWriterBuilder;
+import org.springframework.batch.item.json.JacksonJsonObjectReader;
+import org.springframework.batch.item.json.JsonItemReader;
+import org.springframework.batch.item.json.builder.JsonItemReaderBuilder;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pangares.resultados.dto.MegaSenaResultadoDto;
 import com.pangares.resultados.endpoint.MegaSenaResultadoEndpoint;
 import com.pangares.resultados.entities.MegaSenaResultadoEntity;
@@ -37,17 +43,19 @@ public class BatchConfiguration {
 	private MegaSenaResultadoEndpoint endpoint;
 	private MegaSenaResultadoService service;
 	private MegaSenaResultadoRepository repository;
+	private ObjectMapper mapper;
 	
 	@Autowired
 	public BatchConfiguration(JobBuilderFactory jobBuilderFactory,
 			StepBuilderFactory stepBuilderFactory,
 			MegaSenaResultadoEndpoint endpoint, MegaSenaResultadoService service,
-			MegaSenaResultadoRepository repository) {
+			MegaSenaResultadoRepository repository, ObjectMapper mapper) {
 		this.jobBuilderFactory = jobBuilderFactory;
 		this.stepBuilderFactory = stepBuilderFactory;
 		this.endpoint = endpoint; 
 		this.service= service;
 		this.repository = repository;
+		this.mapper = mapper;
 	}
 
 	private static Object LOCK = new Object();
@@ -55,7 +63,14 @@ public class BatchConfiguration {
 	@Bean
 	public ItemReader<MegaSenaResultadoDto> reader() {
 		log.info("reader: starting");
+
+		return new JsonItemReaderBuilder<MegaSenaResultadoDto>()
+				.jsonObjectReader(new JacksonJsonObjectReader<>(mapper, MegaSenaResultadoDto.class))
+				.resource(new FileSystemResource("docs/sorteios.json"))
+				.name("megasenaResultadoJsonReader")
+				.build();
 		
+		/* TODO: Version for CEF Endpoint
 		List<MegaSenaResultadoDto> dtos = new ArrayList<>();
 		Long nextNumeroConcurso = this.service.getLastNumeroConcurso() + 1;
 		Exception exception = null;
@@ -76,9 +91,9 @@ public class BatchConfiguration {
 			}
 		} while (exception == null);
 		
-		
 		log.info("reader: end successful!");
 		return new ListItemReader<MegaSenaResultadoDto>(dtos);
+		 */
 	}
 	
 	@Bean
