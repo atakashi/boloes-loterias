@@ -1,7 +1,6 @@
 package com.pangares.estatisticas.service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,7 @@ import com.pangares.estatisticas.dtos.NumeroFrequenciaDto;
 import com.pangares.estatisticas.dtos.ParImparDto;
 import com.pangares.estatisticas.dtos.QuadranteDto;
 import com.pangares.estatisticas.dtos.QuadranteEnum;
+import com.pangares.estatisticas.util.NumeroFrequenciaDtoComparator;
 import com.pangares.resultados.entities.MegaSenaResultadoEntity;
 import com.pangares.resultados.repository.MegaSenaResultadoRepository;
 
@@ -67,29 +67,7 @@ public class EstatisticasService {
 			frequencias.add(frequencia);
 		}
 
-		frequencias.sort(new Comparator<NumeroFrequenciaDto>() {
-			@Override
-			public int compare(NumeroFrequenciaDto o1, NumeroFrequenciaDto o2) {
-
-				int comparator = 0;
-				if (o1.getQuantidadeOcorrencias() > o2.getQuantidadeOcorrencias()) {
-					comparator = 1;
-				} else if (o1.getQuantidadeOcorrencias() < o2.getQuantidadeOcorrencias()) {
-					comparator =  -1;
-				}
-
-				if (o1.getQuantidadeOcorrencias() == o2.getQuantidadeOcorrencias()) {
-					if (o1.getNumero() > o2.getNumero()) {
-						comparator =  1;
-					} else if (o1.getNumero() < o2.getNumero()) {
-						comparator =  -1;
-					}
-				}
-
-				return comparator
-						* (-1);	// Ordem decrescente!
-			}
-		});
+		frequencias.sort(NumeroFrequenciaDtoComparator.build(false));
 
 		return frequencias;
 	}

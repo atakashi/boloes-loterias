@@ -25,7 +25,10 @@ public class ResultadosUtil {
 	@Deprecated
 	public static String generateChaveNumerosSorteados(MegaSenaResultadoDto dto) {
 		
-		Collection<Integer> numerosSorteados = dto.getNumerosSorteados();
+		return generateChaveNumerosSorteados(dto.getNumerosSorteados());
+	}
+	
+	public static String generateChaveNumerosSorteados(Collection<Integer> numerosSorteados) {
 		
 		try {
 			StringBuilder strBuilder = new StringBuilder();
@@ -44,10 +47,9 @@ public class ResultadosUtil {
 			
 			return key.toString();
 		} catch (Exception e) {
-			log.error("MegaSena don't has a valid result: " + dto);
+			log.error("MegaSena don't has a valid result: " + numerosSorteados);
 			return "0000000000000000000000000000000000000000000000000000000000000000";
 		}
-		
 	}
 	
 }

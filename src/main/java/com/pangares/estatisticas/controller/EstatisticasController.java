@@ -1,6 +1,7 @@
 package com.pangares.estatisticas.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,10 @@ public class EstatisticasController {
 	private EstatisticasService service;
 	
 	@GetMapping
-	public EstatisticasDto getEstatisticas() {
-		return this.service.getMegaSenaEstatisticas();
+	public EstatisticasDto getEstatisticas(Model model) {
+		EstatisticasDto dto = this.service.getMegaSenaEstatisticas();
+		model.addAttribute("estatisticas", dto);
+		
+		return dto;
 	}
 }
