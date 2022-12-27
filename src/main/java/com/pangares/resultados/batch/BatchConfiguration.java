@@ -1,8 +1,11 @@
 package com.pangares.resultados.batch;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pangares.resultados.dto.MegaSenaResultadoDto;
+import com.pangares.resultados.entities.Quadrante;
+import com.pangares.resultados.repository.QuadranteRepository;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -15,48 +18,21 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.data.builder.RepositoryItemWriterBuilder;
 import org.springframework.batch.item.json.JacksonJsonObjectReader;
-import org.springframework.batch.item.json.JsonItemReader;
 import org.springframework.batch.item.json.builder.JsonItemReaderBuilder;
-import org.springframework.batch.item.support.ListItemReader;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pangares.resultados.dto.MegaSenaResultadoDto;
-import com.pangares.resultados.endpoint.MegaSenaResultadoEndpoint;
-import com.pangares.resultados.entities.MegaSenaResultadoEntity;
-import com.pangares.resultados.repository.MegaSenaResultadoRepository;
-import com.pangares.resultados.services.MegaSenaResultadoService;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
 @EnableBatchProcessing
+@AllArgsConstructor
 public class BatchConfiguration {
 	
-	private JobBuilderFactory jobBuilderFactory;
-	private StepBuilderFactory stepBuilderFactory;
-	private MegaSenaResultadoEndpoint endpoint;
-	private MegaSenaResultadoService service;
-	private MegaSenaResultadoRepository repository;
-	private ObjectMapper mapper;
-	
-	@Autowired
-	public BatchConfiguration(JobBuilderFactory jobBuilderFactory,
-			StepBuilderFactory stepBuilderFactory,
-			MegaSenaResultadoEndpoint endpoint, MegaSenaResultadoService service,
-			MegaSenaResultadoRepository repository, ObjectMapper mapper) {
-		this.jobBuilderFactory = jobBuilderFactory;
-		this.stepBuilderFactory = stepBuilderFactory;
-		this.endpoint = endpoint; 
-		this.service= service;
-		this.repository = repository;
-		this.mapper = mapper;
-	}
+	private final JobBuilderFactory jobBuilderFactory;
+	private final StepBuilderFactory stepBuilderFactory;
+	private final QuadranteRepository repository;
+	private final ObjectMapper mapper;
 
 	private static Object LOCK = new Object();
 	
@@ -98,15 +74,15 @@ public class BatchConfiguration {
 	
 	@Bean
 	public ItemProcessor processor() {
-		return new MegaSenaResultadoItemProcessor<MegaSenaResultadoDto, MegaSenaResultadoEntity>();
+		return new MegaSenaResultadoItemProcessor<MegaSenaResultadoDto, Quadrante>();
 	}
 	
 	@Bean
-	public ItemWriter<MegaSenaResultadoEntity> writer() {
-		RepositoryItemWriterBuilder<MegaSenaResultadoEntity> builder =
-				new RepositoryItemWriterBuilder<MegaSenaResultadoEntity>(); 
+	public ItemWriter<Quadrante> writer() {
+		RepositoryItemWriterBuilder<Quadrante> builder =
+				new RepositoryItemWriterBuilder<>();
 		
-		RepositoryItemWriter<MegaSenaResultadoEntity> writer = builder
+		RepositoryItemWriter<Quadrante> writer = builder
 				.repository(repository)
 				.methodName("save")
 				.build();

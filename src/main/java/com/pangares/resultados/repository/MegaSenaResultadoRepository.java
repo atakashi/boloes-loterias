@@ -15,6 +15,4 @@ public interface MegaSenaResultadoRepository extends ResultadoRepository<MegaSen
 	public Long getLastNumeroConcurso();
 	
 	public List<MegaSenaResultadoEntity> findByChaveNumerosSorteados(String chaveNumerosSorteados);
-	
-	public List<MegaSenaResultadoEntity> findByNumerosSorteados(Set<Integer> numerosSorteados);
 }
