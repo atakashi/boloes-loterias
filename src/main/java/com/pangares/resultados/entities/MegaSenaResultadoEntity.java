@@ -10,9 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
@@ -20,6 +22,8 @@ import lombok.ToString;
 @Builder
 @Getter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(doNotUseGetters = true, exclude = {"id"}, callSuper = false)
 public class MegaSenaResultadoEntity extends AbstractResultadoEntity {
 
